@@ -1,4 +1,4 @@
-package com.xlmx.luxh;
+package cn.com.xlmx;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

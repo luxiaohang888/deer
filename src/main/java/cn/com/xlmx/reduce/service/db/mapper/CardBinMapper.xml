@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.xlmx.reduce.service.db.mapper.CardBinMapper">
+    <insert id="updatetableforccmsF401" parameterType="java.util.List">
+        MERGE INTO CCMS_F401 a
+        USING (
+        <foreach collection="list" item="item" index="index" separator="UNION ALL" open="(" close=")">
+            SELECT
+            #{item.bankcd,jdbcType=VARCHAR} bankcd,
+            #{item.belgbk,jdbcType=VARCHAR} belgbk,
+            #{item.bankna,jdbcType=VARCHAR} bankna,
+            #{item.bankbt,jdbcType=VARCHAR} bankbt,
+            #{item.cityno,jdbcType=VARCHAR} cityno,
+            #{item.effcdt,jdbcType=VARCHAR} effcdt,
+            #{item.cancdt,jdbcType=VARCHAR} cancdt
+            FROM DUAL
+        </foreach>
+        ) b
+        ON (a.BANKCD = b.bankcd)
+        WHEN MATCHED THEN
+        UPDATE SET
+        BELGBK = b.belgbk,
+        BANKNA = b.bankna,
+        BANKBT = b.bankbt,
+        CITYNO = b.cityno,
+        EFFCDT = b.effcdt,
+        CANCDT = b.cancdt
+        WHEN NOT MATCHED THEN
+        INSERT
+        (BANKCD,BELGBK,BANKNA,BANKBT,CITYNO,EFFCDT,CANCDT)
+        VALUES
+        (b.bankcd,b.belgbk,b.bankna,b.bankbt,b.cityno,b.effcdt,b.cancdt)
+    </insert>
+
+</mapper>
